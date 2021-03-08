@@ -1,7 +1,6 @@
 ### 参考链接
 https://projects.spring.io/spring-security-oauth/docs/oauth2.html
 
-
 ### grant_type = "password" 模式
 post请求 /oauth/token 获取token
 <br />

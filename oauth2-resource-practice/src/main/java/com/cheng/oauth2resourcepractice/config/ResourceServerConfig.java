@@ -1,18 +1,12 @@
 package com.cheng.oauth2resourcepractice.config;
 
+import com.cheng.oauth2resourcepractice.CommonUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.util.StreamUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 资源配置
@@ -27,13 +21,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter tokenEnhancer() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        Resource resource = new ClassPathResource("myPrivate.key");
-        try(InputStream in = resource.getInputStream()) {
-            String privateKey = StreamUtils.copyToString(in, StandardCharsets.UTF_8);
-            jwtAccessTokenConverter.setVerifierKey(privateKey);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        Resource resource = new ClassPathResource("myPrivate.key");
+//        try(InputStream in = resource.getInputStream()) {
+//            String privateKey = StreamUtils.copyToString(in, StandardCharsets.UTF_8);
+//            jwtAccessTokenConverter.setVerifierKey(privateKey);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        jwtAccessTokenConverter.setVerifierKey(
+            "-----BEGIN PUBLIC KEY-----\n" +
+            CommonUtil.PUBLIC_KEY +
+            "\n-----END PUBLIC KEY-----"
+        );
         return jwtAccessTokenConverter;
     }
 
